@@ -1,6 +1,8 @@
 package org.learning.springblogricette.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -12,15 +14,24 @@ public class Ricetta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String ingredients;
+    @NotEmpty
     private String image;
+    @NotEmpty
     private Integer preparationTime;
+    @NotNull
     private Integer numberOfPortions;
+    @Lob
+    @Column(length = 500)
     private String recipeText;
 
-    @ManyToMany
-    private List<Categoria> categories;
+    @ManyToOne
+    private Categoria categoria;
+
+
 
     // GETTER E SETTER
 
@@ -81,11 +92,11 @@ public class Ricetta {
         this.recipeText = recipeText;
     }
 
-    public List<Categoria> getCategories() {
-        return categories;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setCategories(List<Categoria> categories) {
-        this.categories = categories;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

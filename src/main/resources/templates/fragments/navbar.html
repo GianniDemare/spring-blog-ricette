@@ -4,7 +4,7 @@
 <body>
 <nav th:fragment="navbar(area)" class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}"></a>
+        <a class="navbar-brand" th:href="@{/}"><img class="ms-2" style="width:60px" src="../OIP.jpg"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,11 +13,11 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" th:classappend="${area == 'ricette' ? 'active' : ''}"
-                       th:href="@{/pizze}">Ricette</a>
+                       th:href="@{/ricette}">Ricette</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${area == 'ingredienti' ? 'active' : ''}"
-                       th:href="@{/ingredients}">Ingredienti</a>
+                    <a class="nav-link" th:classappend="${area == 'categorie' ? 'active' : ''}"
+                       th:href="@{/categorie}">Categorie</a>
                 </li>
             </ul>
         </div>

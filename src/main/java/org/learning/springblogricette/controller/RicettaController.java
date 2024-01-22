@@ -27,7 +27,7 @@ public class RicettaController {
     @GetMapping
     public String index(Model model) {
         List<Ricetta> ricettaList = ricettaRepository.findAll();
-        model.addAttribute("ricettaList", ricettaList);
+        model.addAttribute("ricetteList", ricettaList);
         return "ricette/list";
     }
 
@@ -54,8 +54,11 @@ public class RicettaController {
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("ricetta") Ricetta formRicetta, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "ricette/create";
+        }
         Ricetta savedRicetta = ricettaRepository.save(formRicetta);
-        return "ricette/show";
+        return "redirect:/ricette/show/" + savedRicetta.getId();
     }
 
     // METODO CHE RESTITUISCE LA PAGINA DI MODIFICA DELLA RICETTA
