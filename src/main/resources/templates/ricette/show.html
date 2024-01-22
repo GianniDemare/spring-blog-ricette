@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/resources :: head('Dettagli pizze')"></head>
+<body class="bg-black ">
+<nav th:replace="fragments/navbar.html :: navbar('pizze')"></nav>
+
+<div class="container bg-black">
+    <div class="row">
+        <div class="col-8 mt-3">
+            <img class="img-fluid" th:src="@{${ricetta.image}}">
+        </div>
+
+        <div class="col-4 text-light mt-5 pt-5 centro">
+            <h1 class="text-light, text-center pb-3 mt-5" th:text="${ricetta.title}"></h1>
+            <h6 class="text-light, text-center pb-3" th:text="${ricetta.ingredients}"></h6>
+            <h6 class="text-light, text-center pb-3" th:text="${ricetta.preparationTime}"></h6>
+            <h6 class="text-light, text-center pb-3" th:text="${ricetta.numberOfPortions}"></h6>
+            <h6 class="text-light, text-center pb-3" th:text="${ricetta.recipeText}"></h6>
+            <div class="table mt-3" th:if="${ricetta.categoria}">
+                <p class="text-light">Nome categoria</p>
+                <div th:each="cat : ${ricetta.categoria}">
+                <p th:text="${ricetta.categoria.name}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a class="text-decoration-none text-danger" th:href="@{/ricette}">
+            <i class="fa-solid fa-circle-chevron-left"></i> Ritorna alle ricette </a>
+    </div>
+
+</div>
+<th:block th:replace="fragments/resources :: script"></th:block>
+</body>
+</html>

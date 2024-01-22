@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/resources :: head('Categorie')"></head>
 
+<body>
+<nav th:replace="fragments/navbar.html :: navbar('categorie')"></nav>
+<main class="container">
+    <h1 th:text="${categoria.id == null ? 'Crea la tua categoria' : 'Modifica la categoria'}"></h1>
+    <form
+            method="post"
+            th:with="url=${categoria.id == null ? '/categorie/create' : '/categorie/edit/' + category.id}"
+            th:action="@{${url}}"
+            th:object="${categoria}"
+            class="row "
+    >
+        <div class="col-12">
+            <label class="form-label" for="name">Nome categoria</label>
+            <input class="form-control" type="text" id="name" th:field="*{name}"
+                   th:errorClass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4 mb-4">
+            <button type="submit" class="btn btn-dark me-2">Salva</button>
+            <a class="btn btn-dark" th:href="@{/categorie}">Cancella</a>
+        </div>
+    </form>
+
+</main>
+
+
+
+
+<th:block th:replace="fragments/resources :: script"></th:block>
 </body>
 </html>

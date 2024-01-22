@@ -26,6 +26,7 @@ public class CategoriaController {
     @Autowired
     private RicettaRepository ricettaRepository;
 
+    // METODO INDEX CHE MOSTRA LA LISTA DI TUTTE LE CATEGORIE
     @GetMapping
     public String index(Model model){
         List<Categoria> categoryList;
@@ -33,6 +34,7 @@ public class CategoriaController {
         model.addAttribute("categoria", categoryList);
         return "categorie/list";
     }
+    // METODO CREATE CHE MOSTRA LA PAGINA COL FORM DI CREAZIONE DI UNA CATEGORIA
     @GetMapping("/create")
     public String create(Model model) {
         Categoria categoria = new Categoria();
@@ -48,6 +50,7 @@ public class CategoriaController {
         Categoria savedCategoria = categoriaRepository.save(formCategoria);
         return "redirect:/categorie";
     }
+    // METODO CHE RESTITUISCE LA PAGINA DI MODIFICA DELLA CATEGORIA
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Optional<Categoria> result = categoriaRepository.findById(id);
@@ -55,9 +58,10 @@ public class CategoriaController {
             model.addAttribute("categoria", result.get());
             return "categorie/edit";
         } else {
-            throw new ResponseStatusException(HttpStatusA.NOT_FOUND, "category with id " + id + " not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "category with id " + id + " not found");
         }
     }
+    // METODO CHE RICEVE IL SUBMIT DEL FORM DI EDIT
     @PostMapping("/edit/{id}")
     public String update(@PathVariable Integer id, @Valid @ModelAttribute("categoria") Categoria formcategoria, BindingResult bindingResult) {
         Optional<Categoria> result = categoriaRepository.findById(id);
@@ -74,6 +78,7 @@ public class CategoriaController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "category with id " + id + " not found");
         }
     }
+    // METODO CHE CANCELLA UNA CATEGORIA PRESA PER ID
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         Optional<Categoria> result = categoriaRepository.findById(id);

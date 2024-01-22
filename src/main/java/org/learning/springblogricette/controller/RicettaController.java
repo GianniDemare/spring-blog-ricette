@@ -1,7 +1,9 @@
 package org.learning.springblogricette.controller;
 
 import jakarta.validation.Valid;
+import org.learning.springblogricette.model.Categoria;
 import org.learning.springblogricette.model.Ricetta;
+import org.learning.springblogricette.repository.CategoriaRepository;
 import org.learning.springblogricette.repository.RicettaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,18 +18,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(name = "/ricette")
+@RequestMapping("/ricette")
 public class RicettaController {
 
     // REPOSITORY RICETTA
     @Autowired
     private RicettaRepository ricettaRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     // METODO INDEX CHE MOSTRA LA LISTA DI TUTTE LE RICETTE
     @GetMapping
     public String index(Model model) {
         List<Ricetta> ricettaList = ricettaRepository.findAll();
-        model.addAttribute("ricetteList", ricettaList);
+        model.addAttribute("ricettaList", ricettaList);
         return "ricette/list";
     }
 
@@ -58,35 +63,37 @@ public class RicettaController {
             return "ricette/create";
         }
         Ricetta savedRicetta = ricettaRepository.save(formRicetta);
-        return "redirect:/ricette/show/" + savedRicetta.getId();
+        return "redirect:/ricette";
     }
 
     // METODO CHE RESTITUISCE LA PAGINA DI MODIFICA DELLA RICETTA
-    @GetMapping("/edit{id}")
+    @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Optional<Ricetta> result = ricettaRepository.findById(id);
         if (result.isPresent()) {
             model.addAttribute("ricetta", result.get());
+            model.addAttribute("categoria", categoriaRepository.findAll());
             return "ricette/edit";
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricepe with id" + id + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricepe with id" + id + " not found");
         }
     }
 
     // METODO CHE RICEVE IL SUBMIT DEL FORM DI EDIT
     @PostMapping("/edit/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("ricetta") Ricetta formRicetta, BindingResult bindingResult) {
-        Optional<Ricetta> result = ricettaRepository.findById(id);
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("ricetta") Ricetta formRicetta, BindingResult bindingResult, Model model) {
+        Optional<Ricetta> result = ricettaRepository.findById(formRicetta.getId());
         if (result.isPresent()) {
             Ricetta ricettaToEdit = result.get();
             if (bindingResult.hasErrors()) {
+                model.addAttribute("categoria", categoriaRepository.findAll());
                 return "ricette/edit";
             }
             formRicetta.setImage(ricettaToEdit.getImage());
             Ricetta savedRicetta = ricettaRepository.save(formRicetta);
-            return "ricette/show";
+            return "redirect:/ricette";
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricepe with id" + id + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricepe with id" + id + " not found");
         }
     }
 
@@ -97,9 +104,9 @@ public class RicettaController {
         if (result.isPresent()) {
             ricettaRepository.deleteById(id);
             redirectAttributes.addFlashAttribute("redirectMessage", result.get().getTitle() + " è stato cancellato!");
-            return "ricette";
+            return "redirect:/ricette";
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricipe with id" + id + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricepe with id" + id + " not found");
         }
     }
 }

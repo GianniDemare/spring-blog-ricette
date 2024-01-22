@@ -12,11 +12,15 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @NotEmpty
     private String name;
-    @OneToMany
-    private List<Ricetta> ricette;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Ricetta> ricetteList;
+
+
+
+
 
     // GETTER E SETTER
 
@@ -37,11 +41,11 @@ public class Categoria {
         this.name = name;
     }
 
-    public List<Ricetta> getRicette() {
-        return ricette;
+    public List<Ricetta> getRicetteList() {
+        return ricetteList;
     }
 
-    public void setRicette(List<Ricetta> ricette) {
-        this.ricette = ricette;
+    public void setRicetteList(List<Ricetta> ricetteList) {
+        this.ricetteList = ricetteList;
     }
 }

@@ -1,4 +1,18 @@
+.img-list{
+    width: 250px;
+}
+
+
+.img-full{
+    width: auto;
+}
+
 #body_list_bg{
-    background-image: url(../pizza-4968645_1280.jpg) ;
+    background-image: url(../bgList.jpg) ;
+    background-size:cover;
+}
+
+#body_create_bg{
+    background-image: url(../bgEdit.jpg) ;
     background-size:cover;
 }

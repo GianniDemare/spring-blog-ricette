@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/resources :: head('Modifica Ricetta')"></head>
+
+<body class="bg-black" id="body_edit_bg">
+<nav th:replace="fragments/navbar.html :: navbar('ricette')"></nav>
+
+<div class="container  text-light">
+    <div class="row">
+        <div class="col-6"></div>
+
+        <div class="col-6 mt-5 bg-black  bg-opacity-50">
+            <h1 class="mt-3">Modifica la ricetta</h1>
+
+            <form
+                    id="edit-ricetta"
+                    method="post"
+                    th:object="${ricetta}"
+                    th:action="@{/ricette/edit/{id}(id=${ricetta.id})}"
+                    class="row mt-3">
+
+                <div class="col-6">
+                    <div class="col-8">
+                        <label class="form-label" for="title">Titolo</label>
+                        <input class="form-control" type="text" id="title" th:field="*{title}"
+                               th:errorClass="is-invalid">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-8">
+                        <label class="form-label" for="ingredients">Ingredienti</label>
+                        <input class="form-control" type="text" id="ingredients" th:field="*{ingredients}"
+                               th:errorClass="is-invalid">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('ingredients')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('ingredients')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label class="form-label" for="preparationTime">Tempo Preparazione</label>
+                        <input class="form-control" type="number" id="preparationTime" th:field="*{preparationTime}">
+                    </div>
+
+                    <div class="col-3">
+                        <label class="form-label" for="numberOfPortions">Numero di porzioni</label>
+                        <input class="form-control" type="number" id="numberOfPortions" th:field="*{numberOfPortions}">
+                    </div>
+
+                    <div class="col-8">
+                        <label class="form-label" for="recipeText">Testo ricetta</label>
+                        <input class="form-control" type="text" id="recipeText" th:field="*{recipeText}"
+                               th:errorClass="is-invalid">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('recipeText')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('recipeText')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 mb-4">
+                        <button type="submit" class="btn btn-outline-light me-2">Salva</button>
+                        <a class="btn btn-outline-light" th:href="@{/ricette}">Cancella</a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label class="form-label" for="type">Tipo di ricetta</label>
+                    <select id="type" class="form-select" th:field="*{categoria}">
+                        <option value="" selected>Scegli una categoria</option>
+                        <option th:each="rt : ${categoria}" th:value="${rt.id}"
+                                th:text="${rt.name}"></option>
+                    </select>
+                </div>
+            </form>
+            <div class="text-center mt-5">
+                <a class="text-decoration-none text-danger" th:href="@{/ricette}">
+                    <i class="fa-solid fa-circle-chevron-left"></i> Ritorna alle ricette </a>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="fragments/resources :: script"></th:block>
+</body>
+</html>
