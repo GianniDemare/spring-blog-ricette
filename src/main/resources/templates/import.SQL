@@ -1,0 +1,2 @@
+-- INSERT RICETTA
+INSERT INTO ricetta (title,text_ingridients,picture_url,time_recipe,number_portions,text_recipe) VALUES('Pennette panna e prosciutto cotto','100gr di pasta,30g di panna,100gr di prosciutto cotto',null,15,1,'semplice e buona');
